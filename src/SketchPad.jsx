@@ -104,6 +104,13 @@ export default class SketchPad extends Component {
 
   getCursorPosition(e) {
     const {top, left} = this.canvas.getBoundingClientRect();
+    if (e.hasOwnProperty('touches')) {
+      if (e.touches.length === 0) {
+        e = e.changedTouches.item(0);
+      } else {
+        e = e.touches.item(0);
+      }
+    }
     return [
       e.clientX - left,
       e.clientY - top
@@ -120,6 +127,10 @@ export default class SketchPad extends Component {
         onMouseMove={this.onMouseMove}
         onMouseOut={this.onMouseUp}
         onMouseUp={this.onMouseUp}
+        onTouchCancel={this.onMouseUp}
+        onTouchEnd={this.onMouseUp}
+        onTouchMove={this.onMouseMove}
+        onTouchStart={this.onMouseDown}
         width={width}
         height={height}
       />
